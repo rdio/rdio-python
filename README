@@ -1,0 +1,74 @@
+A Python library for accessing the Rdio web service API with OAuth
+Including a command-line tool for making API requests
+
+The command-line tool is called rdio-call:
+% rdio-call get -i keys=t7609753
+{
+ "status": "ok",
+ "result": {
+  "t7609753": {
+   "baseIcon": "album/6/8/a/000000000009ba86/square-200.jpg",
+   "canDownloadAlbumOnly": true,
+   "artistUrl": "/artist/Mogwai/",
+   "duration": 303,
+   "album": "Hardcore Will Never Die, But You Will",
+   "isClean": false,
+   "albumUrl": "/artist/Mogwai/album/Hardcore_Will_Never_Die%2C_But_You_Will/",
+   "shortUrl": "http://rd.io/x/Qis2Qto",
+   "canStream": true,
+   "embedUrl": "http://rd.io/e/Qis2Qto",
+   "type": "t",
+   "price": "0.99",
+   "trackNum": 1,
+   "key": "t7609753",
+   "icon": "http://media.rd.io/album/6/8/a/000000000009ba86/square-200.jpg",
+   "canSample": true,
+   "name": "White Noise",
+   "isExplicit": false,
+   "artist": "Mogwai",
+   "url": "/artist/Mogwai/album/Hardcore_Will_Never_Die%2C_But_You_Will/track/White_Noise/",
+   "albumKey": "a637574",
+   "artistKey": "r80466",
+   "canDownload": true,
+   "length": 1,
+   "canTether": true
+  }
+ }
+}
+
+
+
+The library is just called rdio. It include an Rdio class and a few exception classes:
+>>> from rdio import Rdio
+>>> state = {}
+>>> r = Rdio(CONSUMER_KEY, CONSUMER_SECRET, state)
+>>> from pprint import pprint
+>>> pprint(r.get(keys='t7609753'))
+{u't7609753': {u'album': u'Hardcore Will Never Die, But You Will',
+               u'albumKey': u'a637574',
+               u'albumUrl': u'/artist/Mogwai/album/Hardcore_Will_Never_Die%2C_But_You_Will/',
+               u'artist': u'Mogwai',
+               u'artistKey': u'r80466',
+               u'artistUrl': u'/artist/Mogwai/',
+               u'baseIcon': u'album/6/8/a/000000000009ba86/square-200.jpg',
+               u'canDownload': True,
+               u'canDownloadAlbumOnly': True,
+               u'canSample': True,
+               u'canStream': True,
+               u'canTether': True,
+               u'duration': 303,
+               u'embedUrl': u'http://rd.io/e/Qis2Qto',
+               u'icon': u'http://media.rd.io/album/6/8/a/000000000009ba86/square-200.jpg',
+               u'isClean': False,
+               u'isExplicit': False,
+               u'key': u't7609753',
+               u'length': 1,
+               u'name': u'White Noise',
+               u'price': u'0.99',
+               u'shortUrl': u'http://rd.io/x/Qis2Qto',
+               u'trackNum': 1,
+               u'type': u't',
+               u'url': u'/artist/Mogwai/album/Hardcore_Will_Never_Die%2C_But_You_Will/track/White_Noise/'}}
+
+
+The Rdio object has methods begin_authentication, complete_authentication and logout to do OAuth authentication.
