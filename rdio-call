@@ -27,7 +27,7 @@ THE SOFTWARE.
 import sys, os, json
 sys.path.append(os.path.join(os.path.dirname(__file__), 'python-oauth2'))
 from optparse import OptionParser, OptionGroup
-from rdio import Rdio
+from rdioapi import Rdio
 
 parser = OptionParser(usage='%prog [options] method arg1=value1 arg2=value2...', version='%prog 0.1')
 parser.add_option('--consumer-key', dest='consumer_key', help='the consumer key to use for this and future requests', metavar='KEY')

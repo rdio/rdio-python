@@ -39,7 +39,7 @@ The command-line tool is called rdio-call:
 
 
 The library is just called rdio. It include an Rdio class and a few exception classes:
->>> from rdio import Rdio
+>>> from rdioapi import Rdio
 >>> state = {}
 >>> r = Rdio(CONSUMER_KEY, CONSUMER_SECRET, state)
 >>> from pprint import pprint
