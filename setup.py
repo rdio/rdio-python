@@ -9,10 +9,10 @@ setup(name='Rdio',
 This includes versions of the httplib2 and oauth2 libraries that work well with the Rdio service.
 This also includes a command-line tool rdio-call for making API calls.''',
       author='Rdio',
-      author_email='api@rd.io',
+      author_email='developersupport@rd.io',
       platforms='any',
       license='MIT',
-      url='http://developer.rdio.com/',
+      url='http://www.rdio.com/developers/',
       packages=find_packages(),
       scripts=['rdio-call'],
 )
