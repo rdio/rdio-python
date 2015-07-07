@@ -1,6 +1,24 @@
+# Travis CI configuration file
+# http://about.travis-ci.org/docs/
+sudo: false
+
 language: python
+
+# Available Python versions:
+# http://about.travis-ci.org/docs/user/ci-environment/#Python-VM-images
 python:
   - "2.7"
-script: python -m unittest discover -c tests
+#  - "3.2"
+#  - "3.3"
+#  - "3.4"
 install:
-  - "pip install ."
+  - pip install .
+  - pip install pylint
+  - pip install pyflakes
+  - pip install pep8
+script:
+  - pwd
+  - pep8 rdioapi rdio-call tests
+  - pylint rdioapi rdio-call tests
+  - pyflakes rdioapi rdio-call tests
+  - python -m unittest discover -c tests
