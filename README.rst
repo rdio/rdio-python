@@ -1,4 +1,4 @@
-A Python OAuth 1.0 library for accessing the Rdio Web Service API.
+A Python OAuth 2.0 library for accessing the Rdio Web Service API.
 Includes a command-line tool for making API requests
 
 The command-line tool is called rdio-call::
