@@ -43,7 +43,7 @@ The library is just called rdio. It include an Rdio class and a few exception cl
 
     >>> from rdioapi import Rdio
     >>> state = {}
-    >>> r = Rdio(CONSUMER_KEY, CONSUMER_SECRET, state)
+    >>> r = Rdio(CLIENT_ID, CONSUMER_SECRET, state)
     >>> from pprint import pprint
     >>> pprint(r.get(keys='t7609753'))
     {u't7609753': {u'album': u'Hardcore Will Never Die, But You Will',

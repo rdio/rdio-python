@@ -1,0 +1,4 @@
+[pep8]
+max-line-length = 120
+ignore = E111,E114,E121,E501,E261,E402,E731,E266
+exclude = migrations

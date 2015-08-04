@@ -25,8 +25,6 @@ setup(
     license='MIT',
     platforms='any',
 
-    install_requires=['oauth2'],
-
     packages=find_packages(),
 
     scripts=['rdio-call'],
