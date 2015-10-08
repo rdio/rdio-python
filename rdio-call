@@ -30,7 +30,7 @@ import json
 import webbrowser
 
 from optparse import OptionParser, OptionGroup
-from rdioapi import Rdio
+from rdioapi import Rdio, __version__ as rdio_api_version
 
 
 def main(options, args):
@@ -94,7 +94,7 @@ def main(options, args):
     sys.exit(int(response['status']))
 
 if __name__ == "__main__":
-  parser = OptionParser(usage='%prog [options] method arg1=value1 arg2=value2...', version='%prog 0.1')
+  parser = OptionParser(usage='%prog [options] method arg1=value1 arg2=value2...', version='%prog {0}'.format(rdio_api_version))
   parser.add_option('--client-id', dest='client_id',
                     help='the client id to use for this and future requests', metavar='CLIENT_ID')
   parser.add_option('--client-secret', dest='client_secret',
