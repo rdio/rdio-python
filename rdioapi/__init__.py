@@ -144,8 +144,12 @@ class AuthStore(object):
 
 
 class HTTPDefaultErrorHandler(urllib2.HTTPDefaultErrorHandler):
+  def __init__(self):
+    pass
+
+  #pylint: disable=too-many-arguments
   def http_error_default(self, req, rsp, code, msg, hdrs):
-    return rsp 
+    return rsp
 
 class Rdio(object):
   """The API adapter."""
