@@ -291,14 +291,14 @@ class Rdio(object):
 
     If there's an error then raise an appropriate exception.
     """
-    response_code, content = self.call_raw(service_method, **args)
-    if response_code != 200:
-      raise RdioProtocolException(response_code, content)
-    response = json.loads(content) or {}
-    if response['status'] == 'ok':
-      return response['result']
+    response, content = self.call_raw(service_method, **args)
+    if response.code != 200:
+      raise RdioProtocolException(response.code, content)
+    json_response = json.loads(content) or {}
+    if json_response['status'] == 'ok':
+      return json_response['result']
     else:
-      raise RdioAPIException(response['message'])
+      raise RdioAPIException(json_response['message'])
 
   def call_raw(self, service_method, **args):
     """
