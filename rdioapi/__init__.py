@@ -143,6 +143,15 @@ class AuthStore(object):
       del self._storage[key]
 
 
+class HTTPDefaultErrorHandler(urllib2.HTTPDefaultErrorHandler):
+  def __init__(self):
+    pass
+
+  # pylint: disable=too-many-arguments
+  def http_error_default(self, req, rsp, code, msg, hdrs):
+    return rsp
+
+
 class Rdio(object):
   """The API adapter."""
 
@@ -169,6 +178,9 @@ class Rdio(object):
     self.client_secret = client_secret
     self._store = AuthStore(data_store)
 
+    opener = urllib2.build_opener(HTTPDefaultErrorHandler)
+    urllib2.install_opener(opener)
+
   def _basic(self):
     """Generate a basic auth string with the client id and secret."""
     return 'Basic ' + base64.encodestring('%s:%s' % (self.client_id, self.client_secret)).replace('\n', '')
@@ -189,8 +201,8 @@ class Rdio(object):
 
   def _check_token(self, body):
     """Check a device code or refresh the refresh token."""
-    response_code, content = self._request(self.urls['token_url'], body)
-    if response_code == 200:
+    response, content = self._request(self.urls['token_url'], body)
+    if response.code == 200:
       api_response = json.loads(content) or {}
       self._store['token_type'] = api_response.get('token_type')
       self._store['access_token'] = api_response.get('access_token')
@@ -199,8 +211,8 @@ class Rdio(object):
       self._store['access_token_expires'] = expires
       LOGGER.debug('Successfully authenticated')
     else:
-      LOGGER.debug('Token response: %s %s', response_code, content)
-    return response_code, content
+      LOGGER.debug('Token response: %s %s', response.code, content)
+    return response.code, content
 
   def _request(self, url, body, headers=None):
     """Have the client make a direct request with the appropriate header."""
@@ -210,9 +222,10 @@ class Rdio(object):
       headers['Authorization'] = self._bearer()
     else:
       headers['Authorization'] = self._basic()
+
     request = urllib2.Request(url, data=body, headers=headers)
     response = urllib2.urlopen(request)
-    return response.code, response.read()
+    return response, response.read()
 
   def begin_authentication(self):
     """
@@ -229,10 +242,10 @@ class Rdio(object):
 
     LOGGER.debug('Requesting a new device token')
     body = urllib.urlencode({'client_id': self.client_id})
-    response_code, content = self._request(self.urls['device_code_url'], body)
+    response, content = self._request(self.urls['device_code_url'], body)
 
-    if response_code != 200:
-      raise RdioProtocolException(response_code, content)
+    if response.code != 200:
+      raise RdioProtocolException(response.code, content)
 
     api_response = json.loads(content) or {}
     device_code = api_response.get('device_code')
@@ -278,14 +291,14 @@ class Rdio(object):
 
     If there's an error then raise an appropriate exception.
     """
-    response_code, content = self.call_raw(service_method, **args)
-    if response_code != 200:
-      raise RdioProtocolException(response_code, content)
-    response = json.loads(content) or {}
-    if response['status'] == 'ok':
-      return response['result']
+    response, content = self.call_raw(service_method, **args)
+    if response.code != 200:
+      raise RdioProtocolException(response.code, content)
+    json_response = json.loads(content) or {}
+    if json_response['status'] == 'ok':
+      return json_response['result']
     else:
-      raise RdioAPIException(response['message'])
+      raise RdioAPIException(json_response['message'])
 
   def call_raw(self, service_method, **args):
     """

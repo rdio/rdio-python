@@ -79,7 +79,7 @@ def main(options, args):
 
   # process the response
   response, content = rdio.call_raw(method, **args)
-  if response['status'] == '200':
+  if response.code == '200':
     if options.indent:
       json.dump(json.loads(content), sys.stdout, indent=True)
       sys.stdout.write('\n')
@@ -87,11 +87,11 @@ def main(options, args):
       print content
   else:
     if options.verbose:
-      if 'www-authenticate' in response:
+      if 'www-authenticate' in response.headers:
         print 'Authentication required, pass --authenticate'
       else:
         print content
-    sys.exit(int(response['status']))
+    sys.exit(response.code)
 
 if __name__ == "__main__":
   parser = OptionParser(usage='%prog [options] method arg1=value1 arg2=value2...', version='%prog 0.1')
