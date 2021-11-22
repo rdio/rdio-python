@@ -66,7 +66,7 @@ class RdioProtocolException(RdioException):
 
 
 class AuthStore(object):
-  """A wrapper around the persistant storage that must be passed in."""
+  """A wrapper around the persistent storage that must be passed in."""
 
   _KEYS = ['device_code', 'device_expires', 'device_interval', 'refresh_token', 'access_token', 'access_token_expires']
 
